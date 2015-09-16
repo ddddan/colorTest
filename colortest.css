@@ -1,0 +1,42 @@
+body {
+    font-family: Calibri;
+}
+
+#gradient {
+    height: 100px;
+    width: 400px;
+    background: linear-gradient(to right, blue, cyan, green, yellow, red);
+    border: 1px solid black;
+}
+
+#results {
+    margin-top: 1em;
+}
+
+#results div {
+    display: table-cell;
+    padding: 0;
+}
+
+#results p {
+    margin: 1em;
+    font-weight: bold;
+}
+
+#results p span {
+    font-weight: normal;
+    white-space: pre;
+}
+
+.num {
+    font-family: monospace;
+    width: 3em;
+    white-space: pre;
+}
+
+#colour {
+    display: inline-block;
+    height: 1.5em;
+    width: 1.5em;
+    border: 1px solid black;
+}
