@@ -1,5 +1,4 @@
 // Colortest.js
-/*global alert */
 
 (function () {
     'use strict';
@@ -287,9 +286,7 @@
     window.onload = function () {
         var g = document.getElementById('gradient'),
             gCoords = window.sitescriptdata.gCoords,
-            gRect,
-            rgb,
-            hsv;
+            gRect;
 
         // Set up coordinates;
         gRect = g.getBoundingClientRect();
@@ -304,9 +301,6 @@
         g.addEventListener('mousemove', updateValues);
         g.addEventListener('mouseout', stopTracking);
 
-        // Test HSV
-        rgb = [255, 0, 255];
-        hsv = convertRGBtoHSV(rgb);
 
     };
 
