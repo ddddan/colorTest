@@ -204,11 +204,11 @@
         // Displacement
         d = 100 * (evt.clientX - ws.gCoords.left) / ws.gCoords.width;
         eDispFull.innerHTML = Math.round(d).toString() + '%';
-        dRel = d % 20;
+        dRel = d % 25;
         eDispSeg.innerHTML = Math.round(dRel).toString() + '%';
 
         // Colour Area
-        c = Math.round(d / 20);
+        c = Math.round(d / 25);
         eColourArea.innerHTML = ws.colourMap[c].name;
 
         // HSV / RGB from offset
@@ -219,8 +219,8 @@
                 hsv[field] = hsvMin[i];
             });
         } else {
-            hsvMin = convertRGBtoHSV(ws.colourMap[Math.floor(d / 20)].rgb);
-            hsvMax = convertRGBtoHSV(ws.colourMap[Math.floor(d / 20) + 1].rgb);
+            hsvMin = convertRGBtoHSV(ws.colourMap[Math.floor(d / 25)].rgb);
+            hsvMax = convertRGBtoHSV(ws.colourMap[Math.floor(d / 25) + 1].rgb);
 
             ['h', 's', 'v'].forEach(function (field, i) {
                 var a, b;
