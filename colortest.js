@@ -117,31 +117,31 @@
 
         // Assign max (chroma) and intermediate
         switch (Math.floor(h)) {
-        case 0:
-            rgb.r = chroma;
-            rgb.g = inter;
-            break;
-        case 1:
-            rgb.r = inter;
-            rgb.g = chroma;
-            break;
-        case 2:
-            rgb.g = chroma;
-            rgb.b = inter;
-            break;
-        case 3:
-            rgb.g = inter;
-            rgb.b = chroma;
-            break;
-        case 4:
-            rgb.r = inter;
-            rgb.b = chroma;
-            break;
-        case 5:
-            rgb.r = chroma;
-            rgb.b = inter;
-            break;
-        default:
+            case 0:
+                rgb.r = chroma;
+                rgb.g = inter;
+                break;
+            case 1:
+                rgb.r = inter;
+                rgb.g = chroma;
+                break;
+            case 2:
+                rgb.g = chroma;
+                rgb.b = inter;
+                break;
+            case 3:
+                rgb.g = inter;
+                rgb.b = chroma;
+                break;
+            case 4:
+                rgb.r = inter;
+                rgb.b = chroma;
+                break;
+            case 5:
+                rgb.r = chroma;
+                rgb.b = inter;
+                break;
+            default:
         }
         // Add match value
         match = v - chroma;
@@ -169,8 +169,8 @@
             d,
             dRel,
             c,
-            hsvMin,
-            hsvMax,
+            hsvLeft,
+            hsvRight,
             hsv = {
                 h: null,
                 s: null,
@@ -181,7 +181,9 @@
                 g: null,
                 b: null
             },
-            colourString = '';
+            colourString = '',
+            nStops,
+            nInterval;
         if (!ws.active) {
             return;
         }
@@ -201,34 +203,33 @@
         };
 
         // Displacement
+        nStops = ws.colourMap.length - 1; // The number of stops in the gradient
+        nInterval = 100 / nStops;
         d = 100 * (evt.clientX - ws.gCoords.left) / ws.gCoords.width;
         eDispFull.innerHTML = Math.round(d).toString() + '%';
-        dRel = d % 25;
+        dRel = (d % nInterval) * nStops;
         eDispSeg.innerHTML = Math.round(dRel).toString() + '%';
 
         // Colour Area
-        c = Math.round(d / 25);
+        c = Math.round(d / nInterval);
         eColourArea.innerHTML = ws.colourMap[c].name;
 
         // HSV / RGB from offset
         if (d === 100) { // Extreme right
             rgb = ws.colourMap[-1].rgb;
-            hsvMin = convertRGBtoHSV(rgb);
+            hsvLeft = convertRGBtoHSV(rgb);
             ['h', 's', 'v'].forEach(function (field, i) {
-                hsv[field] = hsvMin[i];
+                hsv[field] = hsvLeft[i];
             });
         } else {
-            hsvMin = convertRGBtoHSV(ws.colourMap[Math.floor(d / 25)].rgb);
-            hsvMax = convertRGBtoHSV(ws.colourMap[Math.floor(d / 25) + 1].rgb);
+            hsvLeft = convertRGBtoHSV(ws.colourMap[Math.floor(d / nInterval)].rgb);
+            hsvRight = convertRGBtoHSV(ws.colourMap[Math.floor(d / nInterval) + 1].rgb);
 
             ['h', 's', 'v'].forEach(function (field, i) {
-                var a, b;
-                if (hsvMin[i] === hsvMax[i]) {
-                    hsv[field] = hsvMin[i];
+                if (hsvLeft[i] === hsvRight[i]) {
+                    hsv[field] = hsvLeft[i];
                 } else {
-                    a = Math.min(hsvMin[i], hsvMax[i]);
-                    b = Math.max(hsvMin[i], hsvMax[i]);
-                    hsv[field] = (b - a) * dRel / 100 + a;
+                    hsv[field] = (hsvRight[i] - hsvLeft[i]) * dRel / 100 + hsvLeft[i];
                 }
             });
 
